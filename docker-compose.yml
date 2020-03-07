@@ -1,0 +1,17 @@
+version: '3'
+
+services: 
+    node:
+        image: node:12.16.1
+        volumes: 
+            - .:/usr/src/app
+        working_dir: /usr/src/app
+        command: npm start
+        ports: 
+            49160:8080
+    db:
+        image: postgres
+        environment: 
+            PORT=3000
+            MONGODB_URL=mongodb+srv://admin-ray:aim841104@cluster0-j7ls4.mongodb.net/restaurant?retryWrites=true&w=majority
+            JWT_SECRET=thisisasecretformyapp
