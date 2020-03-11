@@ -3,12 +3,14 @@ const bodyParser = require('body-parser')
 
 require('./db/mongoose')
 const userRouter = require('./routers/user')
+const urlRouter = require('./routers/url')
 
 const app = express()
 
 
-app.use(express.json())
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,6 +23,7 @@ app.use((req, res, next) => {
 })
 
 app.use(userRouter)
+app.use(urlRouter)
 
 
 app.use((error, req, res, next) => {
@@ -28,7 +31,7 @@ app.use((error, req, res, next) => {
     const message = error.message;
     const data = error.data;
     res.status(status).json({ message: message, data: data });
-  });
-  
+});
+
 
 module.exports = app
