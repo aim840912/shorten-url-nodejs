@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const session = require('express-session')
 
 require('./db/mongoose')
 const userRouter = require('./routers/user')
@@ -11,6 +12,21 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
+const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+app.use(session({
+    name: 'sessionID',
+    secret: 'sessionsecret',
+    saveUninitialized: false,
+    resave: false,
+    keys:['key1'],
+    cookie: {
+        secure: true,
+        httpOnly: true,
+        maxAge: expiryDate
+    }
+}))
+
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,6 +37,8 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
 })
+
+
 
 app.use(userRouter)
 app.use(urlRouter)

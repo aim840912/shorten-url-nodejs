@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
-const shorturlSchema = new mongoose.Schema(
-    {
+
+const shorturlSchema = new mongoose.Schema({
         url_name: {
             type: String,
             required: true,
@@ -9,7 +9,7 @@ const shorturlSchema = new mongoose.Schema(
         },
         owner: {
             type: mongoose.Schema.Types.ObjectId,
-            required: true,
+            // required: true,
             ref: 'User'
         }
     },
@@ -17,6 +17,11 @@ const shorturlSchema = new mongoose.Schema(
         timestamps: true
     }
 )
+
+shorturlSchema.path('url_name').validate((val)=>{
+    urlRegex = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;
+    return urlRegex.test(val);
+})
 
 const ShortUrl=mongoose.model('ShortUrl',shorturlSchema)
 
