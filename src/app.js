@@ -12,18 +12,16 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
 app.use(session({
     name: 'sessionID',
     secret: 'sessionsecret',
     saveUninitialized: false,
     resave: false,
-    keys:['key1'],
     cookie: {
         secure: true,
         httpOnly: true,
-        maxAge: expiryDate
+        
     }
 }))
 

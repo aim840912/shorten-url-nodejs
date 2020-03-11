@@ -23,6 +23,8 @@
     "jsonwebtoken": "^8.5.1",
     "kutt": "^1.2.0",
     "mongoose": "^5.9.2",
+    "short-id": "0.1.0-1",
+    "uuid": "^7.0.2",
     "uuidv4": "^6.0.5",
     "validator": "^12.2.0"
   },
