@@ -1,6 +1,7 @@
 const app=require('./app')
-const port =8080
+require('dotenv').config()
+const PORT=process.env.PORT
 
-app.listen(port,()=>{
-    console.log('Server is up on port '+ port)
+app.listen(PORT,()=>{
+    console.log('Server is up on port '+ PORT)
 })

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
+require('dotenv').config()
 
-mongoose.connect("mongodb+srv://admin-ray:aim841104@cluster0-j7ls4.mongodb.net/short_url?retryWrites=true&w=majority", {
+mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
