@@ -4,14 +4,26 @@ const shortId = require('short-id')
 const router = new express.Router()
 const SUrl = require('../models/shorturl') //SUrl = shortUrl
 const auth = require('../middleware/auth')
-const urlRedio = require('./redisUrl')
+const urlRedio = require('../utils/redisUrl')
 
-router.get('/sh_url/:shorturl', async (req, res) => {
+router.get('/shortUrl', auth, async(req, res) => {
+    try {
+        await req.user.populate({
+            path: 'urls'
+        }).execPopulate()
+        console.log(req.user)
+        res.json(req.user.urls)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json()
+    }
+})
+
+router.get('/shortUrl/:shorturl', async (req, res) => {
     const _id = req.params.shorturl
 
     try {
-        const shorturl = await SUrl.findOne({ shortUrl: "/sh_url/" + _id })
-        console.log(shortId)
+        const shorturl = await SUrl.findOne({ shortUrl: "/shorturl/" + _id })
         if (!shorturl) {
             return res.status(404).json({ message: "cant find this url" })
         }
@@ -22,8 +34,15 @@ router.get('/sh_url/:shorturl', async (req, res) => {
     }
 })
 
+
+
 router.post('/shortUrl/submit', auth, async (req, res) => {
-    const generateShortUrl = "/sh_url/" + shortId.generate()
+    const generateShortUrl = "/shorturl/" + shortId.generate()
+
+    const existURL = await SUrl.findOne({ url_name: req.body.url })
+    if (existURL) {
+        return res.json({ message: "URL is already exist", existURL })
+    }
 
     const url = new SUrl({
         url_name: req.body.url,
@@ -31,20 +50,30 @@ router.post('/shortUrl/submit', auth, async (req, res) => {
         shortUrl: generateShortUrl
     })
 
-    // redio
-    urlRedio.createShortUrlRedis(req.body.url, generateShortUrl).then(ans => {
-        res.json({ data: ans })
-    }).catch(error => {
-        res.json({ message: error })
-    })
-
     try {
         await url.save()
+        res.status(201).json({ message: "transfer success" })
 
-        res.status(201).json({ message: "Success save" })
+
     } catch (error) {
-        console.log(error)
         res.status(400).json(error)
+    }
+})
+
+router.patch('/shortUrl/:shorturl', auth, async (req, res) => {
+
+})
+
+router.delete('/shortUrl/:shorturl', auth, async (req, res) => {
+    try {
+        const shorturl = await SUrl.findOneAndDelete({ shortUrl: req.params.shorturl, owner: req.user._id })
+
+        if (!shorturl) {
+            res.status(404).json({ message: "delete fail" })
+        }
+        res.json({ message: "delete success" })
+    } catch (e) {
+        res.status(500).json({ message: "delete failed" })
     }
 })
 

@@ -7,7 +7,7 @@ client.on("error", function (err) {
     console.log("Error " + err)
 })
 
-exports.createShortUrlRedis = function (url,_id) {
+exports.createShortUrlRedis = function (url, _id) {
     // let _id = shortId.generate()
 
     return client.hexists("shorten_url", _id).then((ans) => {
@@ -15,6 +15,9 @@ exports.createShortUrlRedis = function (url,_id) {
             return client.hset("shorten_url", _id, url)
         }
         callee()
+    }).then(ans => {
+        // page_rank初始化
+        return client.zadd('page_rank', 0, _id);
     }).then(ans => {
         return _id
     }).catch(err => {
