@@ -14,14 +14,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 
 app.use(session({
-    name: 'sessionID',
     secret: 'sessionsecret',
     saveUninitialized: false,
     resave: false,
     cookie: {
         secure: true,
-        httpOnly: true,
-        
+        httpOnly: true
     }
 }))
 
