@@ -4,15 +4,11 @@ const shortId = require('short-id')
 const router = new express.Router()
 const SUrl = require('../models/shorturl') //SUrl = shortUrl
 const auth = require('../middleware/auth')
-const urlRedio = require('../utils/redisUrl')
 
 router.get('/shortUrl', auth, async(req, res) => {
     try {
-        await req.user.populate({
-            path: 'urls'
-        }).execPopulate()
-        console.log(req.user)
-        res.json(req.user.urls)
+    
+    
     } catch (error) {
         console.log(error)
         res.status(500).json()
