@@ -27,6 +27,6 @@ shorturlSchema.path('url_name').validate((val) => {
     return urlRegex.test(val);
 })
 
-const ShortUrl = mongoose.model('ShortUrl', shorturlSchema)
+const ShortUrl = mongoose.model('SUrl', shorturlSchema)
 
 module.exports = ShortUrl
