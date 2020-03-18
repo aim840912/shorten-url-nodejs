@@ -5,24 +5,25 @@ const router = new express.Router()
 const SUrl = require('../models/shorturl') //SUrl = shortUrl
 const auth = require('../middleware/auth')
 
-router.get('/shortUrl', auth, async(req, res) => {
+router.get('/surl', auth, async (req, res) => {
     try {
-        await req.user.populate({
-            path: 'urls'
-        }).execPopulate()
-        console.log(req.user)
-        res.json(req.user.urls)
+        const shorturl = await SUrl.find({ owner: req.user._id })
+        if (!shorturl) {
+            return res.status(404).json({ message: "no database inform" })
+        }
+        // console.log(shorturl)
+        res.status(200).json(shorturl)
     } catch (error) {
         console.log(error)
         res.status(500).json()
     }
 })
 
-router.get('/shortUrl/:shorturl', async (req, res) => {
+router.get('/surl/:shorturl', async (req, res) => {
     const _id = req.params.shorturl
 
     try {
-        const shorturl = await SUrl.findOne({ shortUrl: "/shorturl/" + _id })
+        const shorturl = await SUrl.findOne({ shortUrl: "/surl/" + _id })
         if (!shorturl) {
             return res.status(404).json({ message: "cant find this url" })
         }
@@ -35,8 +36,8 @@ router.get('/shortUrl/:shorturl', async (req, res) => {
 
 
 
-router.post('/shortUrl/submit', auth, async (req, res) => {
-    const generateShortUrl = "/shorturl/" + shortId.generate()
+router.post('/surl/submit', auth, async (req, res) => {
+    const generateShortUrl = "/surl/" + shortId.generate()
 
     const existURL = await SUrl.findOne({ url_name: req.body.url })
     if (existURL) {
@@ -53,25 +54,46 @@ router.post('/shortUrl/submit', auth, async (req, res) => {
         await url.save()
         res.status(201).json({ message: "transfer success" })
 
-
     } catch (error) {
         res.status(400).json(error)
     }
 })
 
-router.patch('/shortUrl/:shorturl', auth, async (req, res) => {
+router.patch('/surl/:shorturl', auth, async (req, res) => {// still modify
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['shortUrl']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+    if (!isValidOperation) {
+        return res.status(400).json({ message: "Invalid updates!" })
+    }
+
+    try {
+        const url = await SUrl.findOne({ _id: req.params.shorturl, owner: req.user._id })
+
+        if (!url) {
+            return res.status(404).json({ message: "Can't find this url" })
+        }
+
+        updates.forEach((update) => url[update] = req.body[update])
+        await url.save()
+        res.json({ message: "Update Successful!" })
+    } catch (error) {
+        res.status(400).json({ message: error })
+    }
 
 })
 
-router.delete('/shortUrl/:shorturl', auth, async (req, res) => {
+router.delete('/surl/:shorturl', auth, async (req, res) => {
     try {
-        const shorturl = await SUrl.findOneAndDelete({ shortUrl: req.params.shorturl, owner: req.user._id })
+        const urlIndata = await SUrl.findOneAndDelete({ _id: req.params.shorturl, owner: req.user._id })
 
-        if (!shorturl) {
-            res.status(404).json({ message: "delete fail" })
+        if (!urlIndata) {
+            return res.status(404).json({message:"delete fail"})
         }
-        res.json({ message: "delete success" })
+        res.status(201).json({ message: "delete success" })
     } catch (e) {
+        // console.log(e)
         res.status(500).json({ message: "delete failed" })
     }
 })
