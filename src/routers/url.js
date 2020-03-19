@@ -7,7 +7,7 @@ const auth = require('../middleware/auth')
 
 router.get('/surl', auth, async (req, res) => {
     try {
-        const shorturl = await SUrl.find({ owner: req.user._id })
+        const shorturl = await SUrl.find({ })
         if (!shorturl) {
             return res.status(404).json({ message: "no database inform" })
         }

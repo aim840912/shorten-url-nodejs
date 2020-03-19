@@ -24,6 +24,14 @@ const userTwo = {
     }]
 }
 
+// const urlOneId=new mongoose.Types.ObjectId()
+// const urlOne={
+//     _id:urlOneId,
+//     url_name:'',
+//     owner:'',
+//     shortUrl:''
+// }
+
 const setupDatabase=async()=>{
     await User.deleteMany()
     await new User(userOne).save()
