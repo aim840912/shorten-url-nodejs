@@ -6,7 +6,7 @@ const {userOneId,userOne,setupDatabase}=require('./fixtures/db')
 beforeEach(setupDatabase)
 
 test('Should signup a new user',async()=>{
-    const response=await (await request(app).post('/users')).setMaxListeners({
+    const response=await (await request(app).post('/users')).send({
         name:'Andrew',
         email:'andrew@example.com',
         password:'werrrwrwrw'
