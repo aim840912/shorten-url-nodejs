@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
@@ -14,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 
 app.use(session({
-    secret: 'sessionsecret',
+    secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
     resave: false,
     cookie: {

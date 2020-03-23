@@ -7,7 +7,7 @@ const auth = require('../middleware/auth')
 
 router.get('/surl', auth, async (req, res) => {
     try {
-        const shorturl = await SUrl.find({ })
+        const shorturl = await SUrl.find({ owner: req.user._id })
         if (!shorturl) {
             return res.status(404).json({ message: "no database inform" })
         }
@@ -21,7 +21,6 @@ router.get('/surl', auth, async (req, res) => {
 
 router.get('/surl/:shorturl', async (req, res) => {
     const _id = req.params.shorturl
-
     try {
         const shorturl = await SUrl.findOne({ shortUrl: "/surl/" + _id })
         if (!shorturl) {
@@ -89,7 +88,7 @@ router.delete('/surl/:shorturl', auth, async (req, res) => {
         const urlIndata = await SUrl.findOneAndDelete({ _id: req.params.shorturl, owner: req.user._id })
 
         if (!urlIndata) {
-            return res.status(404).json({message:"delete fail"})
+            return res.status(404).json({ message: "delete fail" })
         }
         res.status(201).json({ message: "delete success" })
     } catch (e) {

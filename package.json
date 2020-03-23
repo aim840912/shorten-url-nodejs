@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "nodemon src/index.js",
     "dev": "env-cmd -f ./.env nodemon src/index.js",
     "test": "env-cmd -f .env jest --watch --runInBand"
   },
@@ -15,7 +15,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/preset-env": "^7.9.0",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -32,9 +31,12 @@
     "validator": "^12.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@babel/preset-env": "^7.9.0",
     "env-cmd": "^10.1.0",
     "jest": "^25.1.0",
     "nodemon": "^2.0.2",
