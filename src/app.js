@@ -9,10 +9,8 @@ const urlRouter = require('./routers/url')
 
 const app = express()
 
-
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -24,7 +22,6 @@ app.use(session({
     }
 }))
 
-
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
@@ -35,11 +32,8 @@ app.use((req, res, next) => {
     next();
 })
 
-
-
 app.use(userRouter)
 app.use(urlRouter)
-
 
 app.use((error, req, res, next) => {
     const status = error.statusCode || 500;

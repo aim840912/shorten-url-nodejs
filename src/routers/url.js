@@ -33,6 +33,21 @@ router.get('/surl/:shorturl', async (req, res) => {
     }
 })
 
+router.get('/surl/patch/:shorturl', async (req, res) => {
+    const _id = req.params.shorturl
+    try {
+        const shorturl = await SUrl.findOne({ _id })
+        if (!shorturl) {
+            return res.status(404).json({ message: "cant find this url" })
+        }
+        console.log(res.json(shorturl))
+        return res.json(shorturl)
+
+    } catch (error) {
+        res.status(500).json()
+    }
+})
+
 
 
 router.post('/surl/submit', auth, async (req, res) => {
@@ -60,7 +75,8 @@ router.post('/surl/submit', auth, async (req, res) => {
 
 router.patch('/surl/:shorturl', auth, async (req, res) => {// still modify
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['shortUrl']
+    console.log(updates)
+    const allowedUpdates = ['url_name']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) {
