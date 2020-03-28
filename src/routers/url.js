@@ -40,7 +40,6 @@ router.get('/surl/patch/:shorturl', async (req, res) => {
         if (!shorturl) {
             return res.status(404).json({ message: "cant find this url" })
         }
-        console.log(res.json(shorturl))
         return res.json(shorturl)
 
     } catch (error) {
@@ -75,7 +74,7 @@ router.post('/surl/submit', auth, async (req, res) => {
 
 router.patch('/surl/:shorturl', auth, async (req, res) => {// still modify
     const updates = Object.keys(req.body)
-    console.log(updates)
+    // console.log(req.body)
     const allowedUpdates = ['url_name']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
@@ -84,8 +83,9 @@ router.patch('/surl/:shorturl', auth, async (req, res) => {// still modify
     }
 
     try {
+        
         const url = await SUrl.findOne({ _id: req.params.shorturl, owner: req.user._id })
-
+        console.log(url)
         if (!url) {
             return res.status(404).json({ message: "Can't find this url" })
         }
@@ -94,6 +94,7 @@ router.patch('/surl/:shorturl', auth, async (req, res) => {// still modify
         await url.save()
         res.json({ message: "Update Successful!" })
     } catch (error) {
+        console.log(error)
         res.status(400).json({ message: error })
     }
 
