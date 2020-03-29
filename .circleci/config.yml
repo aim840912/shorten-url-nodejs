@@ -25,9 +25,9 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
-      - run:
-          name: Lint
-          command: npx eslint . --quiet
+      # - run:
+      #     name: Lint
+      #     command: npx eslint . --quiet
       - run:
           name: Test
           command: npx jest --ci --maxWorkers=2 --reporters="default" --reporters="jest-junit"

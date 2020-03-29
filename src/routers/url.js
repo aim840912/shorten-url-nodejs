@@ -74,7 +74,6 @@ router.post('/surl/submit', auth, async (req, res) => {
 
 router.patch('/surl/:shorturl', auth, async (req, res) => {// still modify
     const updates = Object.keys(req.body)
-    // console.log(req.body)
     const allowedUpdates = ['url_name']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
@@ -83,9 +82,7 @@ router.patch('/surl/:shorturl', auth, async (req, res) => {// still modify
     }
 
     try {
-        
         const url = await SUrl.findOne({ _id: req.params.shorturl, owner: req.user._id })
-        console.log(url)
         if (!url) {
             return res.status(404).json({ message: "Can't find this url" })
         }
