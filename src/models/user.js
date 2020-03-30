@@ -1,7 +1,9 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+/* eslint-disable no-use-before-define */
+/* eslint-disable func-names */
+const mongoose = require('mongoose')
+const validator = require('validator')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const userSchema = new mongoose.Schema(
   {
@@ -18,7 +20,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       validate(value) {
         if (!validator.isEmail(value)) {
-          throw new Error("EMail is invalid");
+          throw new Error('EMail is invalid')
         }
       }
     },
@@ -28,14 +30,14 @@ const userSchema = new mongoose.Schema(
       minlength: 7,
       trim: true,
       validate(value) {
-        if (value.toLowerCase().includes("password")) {
-          throw new Error('Password cannot contain "password"');
+        if (value.toLowerCase().includes('password')) {
+          throw new Error('Password cannot contain "password"')
         }
       }
     },
-    urls:{
-      type:String,
-      ref:'SUrl'
+    urls: {
+      type: String,
+      ref: 'SUrl'
     },
     tokens: [
       {
@@ -49,10 +51,9 @@ const userSchema = new mongoose.Schema(
   {
     timestamps: true
   }
-);
+)
 
-
-userSchema.methods.toJSON = function () {
+userSchema.methods.toJSON = function() {
   const user = this
   const userObject = user.toObject()
 
@@ -60,18 +61,17 @@ userSchema.methods.toJSON = function () {
   delete userObject.tokens
 
   return userObject
-
 }
 
-userSchema.methods.generateAuthToken = async function () {
-  const user = this;
-  const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
+userSchema.methods.generateAuthToken = async function() {
+  const user = this
+  const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET)
 
-  user.tokens = user.tokens.concat({ token });
+  user.tokens = user.tokens.concat({ token })
   await user.save()
 
   return token
-};
+}
 
 userSchema.statics.findByCredential = async (email, password) => {
   const user = await User.findOne({ email })
@@ -89,7 +89,7 @@ userSchema.statics.findByCredential = async (email, password) => {
   return user
 }
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function(next) {
   const user = this
 
   if (user.isModified('password')) {
@@ -98,7 +98,6 @@ userSchema.pre('save', async function (next) {
 
   next()
 })
-
 
 const User = mongoose.model('User', userSchema)
 
