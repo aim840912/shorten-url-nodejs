@@ -1,6 +1,6 @@
-# Boilerplate
+# Shorten Url
 
-The Boilerplate is a professional backend template for building fast, robust, and adaptable Node.js Application.
+Use to shorten your url
 
 ## Quick start
 
@@ -19,8 +19,14 @@ The Boilerplate is a professional backend template for building fast, robust, an
 
 - Production ready. Use newest features without worrying about any incompatibility.
 - Includes:
-  - [`koa`](https://koajs.com/)
+  - [`express`](https://expressjs.com/)
   - [`Jest`](https://github.com/facebook/jest)
 - [`Babel`](https://babeljs.io/) to transpile the source code
 - Lint the code with airbnb based [`ESLint`](https://github.com/eslint/eslint) config & [`Prettier`](https://github.com/prettier/prettier)
 - Code quality protection by linting with git hook
+
+## Stack
+
+- Node (Web server)
+- Express (Web server framework)
+- Passport (Authentication)

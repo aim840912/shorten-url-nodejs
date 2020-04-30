@@ -1,11 +1,11 @@
 {
   "name": "shortenurl",
   "version": "1.0.0",
-  "description": " use to shorten Url",
+  "description": "Use to shorten Url",
   "main": "index.js",
   "scripts": {
     "lint": "eslint . --fix",
-    "test": "jest --watchAll",
+    "test": "NODE_ENV=test jest --watchAll",
     "dev": "nodemon src/index.js",
     "build": "rm -rf build && babel src -d build --copy-files",
     "start": "npm run build && node build"
