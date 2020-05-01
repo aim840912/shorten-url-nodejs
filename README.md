@@ -1,6 +1,6 @@
 # Shorten Url
 
-Use to shorten your url
+Way to shorten your url
 
 ## Quick start
 
@@ -29,4 +29,6 @@ Use to shorten your url
 
 - Node (Web server)
 - Express (Web server framework)
-- Passport (Authentication)
+- Passport (Authentication about fb)
+- MongoDB (database)
+  

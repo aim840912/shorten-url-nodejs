@@ -12,11 +12,9 @@ router.get('/surl', auth, async (req, res) => {
     if (!shorturl) {
       return res.status(404).json({ message: 'no database inform' })
     }
-    // console.log(shorturl)
-    res.status(200).json(shorturl)
+    return res.status(200).json(shorturl)
   } catch (error) {
-    console.log(error)
-    res.status(500).json()
+    return res.status(500).json()
   }
 })
 
@@ -29,7 +27,7 @@ router.get('/surl/:shorturl', async (req, res) => {
     }
     return res.redirect(shorturl.url_name)
   } catch (error) {
-    res.status(500).json()
+    return res.status(500).json()
   }
 })
 
@@ -42,7 +40,7 @@ router.get('/surl/patch/:shorturl', async (req, res) => {
     }
     return res.json(shorturl)
   } catch (error) {
-    res.status(500).json()
+    return res.status(500).json()
   }
 })
 
@@ -62,9 +60,9 @@ router.post('/surl/submit', auth, async (req, res) => {
 
   try {
     await url.save()
-    res.status(201).json({ message: 'transfer success' })
+    return res.status(201).json({ message: 'transfer success' })
   } catch (error) {
-    res.status(400).json(error)
+    return res.status(400).json(error)
   }
 })
 
@@ -91,10 +89,9 @@ router.patch('/surl/:shorturl', auth, async (req, res) => {
 
     updates.forEach(update => (url[update] = req.body[update]))
     await url.save()
-    res.json({ message: 'Update Successful!' })
+    return res.json({ message: 'Update Successful!' })
   } catch (error) {
-    console.log(error)
-    res.status(400).json({ message: error })
+    return res.status(400).json({ message: error })
   }
 })
 
@@ -104,14 +101,12 @@ router.delete('/surl/:shorturl', auth, async (req, res) => {
       _id: req.params.shorturl,
       owner: req.user._id
     })
-
     if (!urlIndata) {
       return res.status(404).json({ message: 'delete fail' })
     }
-    res.status(201).json({ message: 'delete success' })
+    return res.status(201).json({ message: 'delete success' })
   } catch (e) {
-    // console.log(e)
-    res.status(500).json({ message: 'delete failed' })
+    return res.status(500).json({ message: 'delete failed' })
   }
 })
 

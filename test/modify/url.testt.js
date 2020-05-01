@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-commented-out-tests */
 // const request = require('./node_modules/supertest')
 // const shortId = require('./node_modules/short-id')
 // const app = require('../../src/app')

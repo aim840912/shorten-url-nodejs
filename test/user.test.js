@@ -1,6 +1,6 @@
 /* eslint-disable jest/expect-expect */
 const request = require('supertest')
-const app = require('../src/app')
+const app = require('../src/index')
 const User = require('../src/models/user')
 const { userOneId, userOne, setupDatabase } = require('./fixtures/db')
 const index = require('../src/index')
