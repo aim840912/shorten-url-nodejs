@@ -1,0 +1,26 @@
+runtime: nodejs # Name of the App Engine language runtime used by this application
+env: flex # Select the flexible environment
+
+manual_scaling: # Enable manual scaling for a service
+  instances: 1 # 1 instance assigned to the service
+
+resources: # Control the computing resources
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+
+skip_files: # Specifies which files in the application directory are not to be uploaded to App Engine
+  # We just need build/server.js to deploy
+  - node_modules/
+  - .gitignore
+  - .git/
+  - .circleci/
+  - src/
+  - test/
+  - .eslintrc.js
+  - .huskyrc.js
+  - .eslintignore
+  - .prettierrc
+  - babel.config.js
+  - lint-staged.config.js
+  - nodemon.json
