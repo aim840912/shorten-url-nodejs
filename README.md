@@ -1,6 +1,8 @@
 # Shorten Url
 
-Way to shorten your url
+1. Create your account with mail or use FaceBook to login
+2. CRUD Url what you want to shorten
+3. You can see what you shorten but no one can't see it
 
 ## Quick start
 
@@ -27,8 +29,9 @@ Way to shorten your url
 
 ## Stack
 
-- Node (Web server)
+- NodeJs (Web server)
 - Express (Web server framework)
-- Passport (Authentication about fb)
+- Passport (Authentication with fb)
 - MongoDB (database)
+- jwt (Secutity)
   
