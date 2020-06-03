@@ -1,6 +1,6 @@
 # Shorten Url
 
-Way to shorten your url
+This RESTful API is used to shorten your long Url
 
 ## Quick start
 
@@ -15,20 +15,11 @@ Way to shorten your url
 - `npm run build`: build without execution
 - `npm run dev`: dev with hot reloading (provided by [`nodemon`](https://github.com/remy/nodemon) & [`babel-node`](https://github.com/babel/babel/tree/master/packages/babel-node))
 
-## Features
-
-- Production ready. Use newest features without worrying about any incompatibility.
-- Includes:
-  - [`express`](https://expressjs.com/)
-  - [`Jest`](https://github.com/facebook/jest)
-- [`Babel`](https://babeljs.io/) to transpile the source code
-- Lint the code with airbnb based [`ESLint`](https://github.com/eslint/eslint) config & [`Prettier`](https://github.com/prettier/prettier)
-- Code quality protection by linting with git hook
-
 ## Stack
 
 - Node (Web server)
 - Express (Web server framework)
 - Passport (Authentication about fb)
 - MongoDB (database)
-  
+- token (Security)
+- RESTful

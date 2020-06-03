@@ -1,17 +1,25 @@
+/* eslint-disable global-require */
 require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const passport = require('passport')
+const helmet = require('helmet')
 
 require('./db/mongoose')
 const userRouter = require('./routers/user')
-const urlRouter = require('./routers/url')
+const urlRouter = require('./routers/reurl')
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 const app = express()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(helmet())
 
 app.use(
   session({
@@ -52,8 +60,8 @@ app.use((error, req, res) => {
   const { data } = error
   res.status(status).json({ message, data })
 })
-const { PORT } = process.env
+const port = process.env.PORT || 3000
 
-app.listen(PORT, () => {
-  console.log(`Server is up on port ${PORT}`)
+app.listen(port, () => {
+  console.log(`Server is up on port ${port}`)
 })

@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 const mongoose = require('mongoose')
 
-const shorturlSchema = new mongoose.Schema(
+const reurlSchema = new mongoose.Schema(
   {
     url_name: {
       type: String,
@@ -23,11 +23,11 @@ const shorturlSchema = new mongoose.Schema(
   }
 )
 
-shorturlSchema.path('url_name').validate(val => {
+reurlSchema.path('url_name').validate(val => {
   urlRegex = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/
   return urlRegex.test(val)
 })
 
-const ShortUrl = mongoose.model('SUrl', shorturlSchema)
+const ReUrl = mongoose.model('SUrl', reurlSchema)
 
-module.exports = ShortUrl
+module.exports = ReUrl

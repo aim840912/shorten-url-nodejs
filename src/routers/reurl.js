@@ -3,12 +3,12 @@ const express = require('express')
 const shortId = require('short-id')
 
 const router = new express.Router()
-const SUrl = require('../models/shorturl') // SUrl = shortUrl
+const ReUrl = require('../models/reurl')
 const auth = require('../middleware/auth')
 
-router.get('/surl', auth, async (req, res) => {
+router.get('/reurl', auth, async (req, res) => {
   try {
-    const shorturl = await SUrl.find({ owner: req.user._id })
+    const shorturl = await ReUrl.find({ owner: req.user._id })
     if (!shorturl) {
       return res.status(404).json({ message: 'no database inform' })
     }
@@ -18,10 +18,10 @@ router.get('/surl', auth, async (req, res) => {
   }
 })
 
-router.get('/surl/:shorturl', async (req, res) => {
+router.get('/reurl/:shorturl', async (req, res) => {
   const _id = req.params.shorturl
   try {
-    const shorturl = await SUrl.findOne({ shortUrl: `/surl/${_id}` })
+    const shorturl = await ReUrl.findOne({ shortUrl: `/reurl/${_id}` })
     if (!shorturl) {
       return res.status(404).json({ message: 'cant find this url' })
     }
@@ -31,10 +31,10 @@ router.get('/surl/:shorturl', async (req, res) => {
   }
 })
 
-router.get('/surl/patch/:shorturl', async (req, res) => {
+router.get('/reurl/patch/:shorturl', async (req, res) => {
   const _id = req.params.shorturl
   try {
-    const shorturl = await SUrl.findOne({ _id })
+    const shorturl = await ReUrl.findOne({ _id })
     if (!shorturl) {
       return res.status(404).json({ message: 'cant find this url' })
     }
@@ -44,15 +44,15 @@ router.get('/surl/patch/:shorturl', async (req, res) => {
   }
 })
 
-router.post('/surl/submit', auth, async (req, res) => {
-  const generateShortUrl = `/surl/${shortId.generate()}`
+router.post('/reurl/submit', auth, async (req, res) => {
+  const generateShortUrl = `/reurl/${shortId.generate()}`
 
-  const existURL = await SUrl.findOne({ url_name: req.body.url })
+  const existURL = await ReUrl.findOne({ url_name: req.body.url })
   if (existURL) {
     return res.json({ message: 'URL is already exist', existURL })
   }
 
-  const url = new SUrl({
+  const url = new ReUrl({
     url_name: req.body.url,
     owner: req.user._id,
     shortUrl: generateShortUrl
@@ -66,7 +66,7 @@ router.post('/surl/submit', auth, async (req, res) => {
   }
 })
 
-router.patch('/surl/:shorturl', auth, async (req, res) => {
+router.patch('/reurl/:shorturl', auth, async (req, res) => {
   // still modify
   const updates = Object.keys(req.body)
   const allowedUpdates = ['url_name']
@@ -79,7 +79,7 @@ router.patch('/surl/:shorturl', auth, async (req, res) => {
   }
 
   try {
-    const url = await SUrl.findOne({
+    const url = await ReUrl.findOne({
       _id: req.params.shorturl,
       owner: req.user._id
     })
@@ -95,9 +95,9 @@ router.patch('/surl/:shorturl', auth, async (req, res) => {
   }
 })
 
-router.delete('/surl/:shorturl', auth, async (req, res) => {
+router.delete('/reurl/:shorturl', auth, async (req, res) => {
   try {
-    const urlIndata = await SUrl.findOneAndDelete({
+    const urlIndata = await ReUrl.findOneAndDelete({
       _id: req.params.shorturl,
       owner: req.user._id
     })
