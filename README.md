@@ -17,9 +17,9 @@ This RESTful API is used to shorten your long Url
 
 ## Stack
 
-- Node (Web server)
+- NodeJs (Web server)
 - Express (Web server framework)
-- Passport (Authentication about fb)
+- Passport (Authentication with fb)
 - MongoDB (database)
 - token (Security)
 - RESTful
